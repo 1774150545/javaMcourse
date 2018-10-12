@@ -5,6 +5,7 @@
  
 　　　　Comparable<T>此接口是由具体某个有实际意义的类来实现，指示出此类的对象有什么样的排序方法。下面的苹果
 
+```
 public class Apple implements Comparable<Apple> {
     /**
      * 苹果的重量
@@ -31,12 +32,12 @@ public class Apple implements Comparable<Apple> {
         }
     }
 }
-
+```
 上面的例子中，苹果重量轻的将排在后面，所以是降序排列。  
 
  
 　　　　Comparator<T>此接口一般用来的定义比较器，不会由包含实际意义的类来实现，而是由具体比较器来实现。下面定义一个比较器：
-
+```
 public class WeightComparator implements Comparator<Apple> {
     /**
      * 苹果的重量
@@ -78,6 +79,6 @@ public class WeightComparator implements Comparator<Apple> {
         System.out.println("" + apples[0] + apples[1] + apples[2]);  
     }
 }
-
+```
 上面的例子定义了一个重量比较器，我把它用来比较苹果的重量，即使用泛型  
 public class WeightComparator implements Comparator<Apple>  
