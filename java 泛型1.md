@@ -1,0 +1,152 @@
+# Java 的泛型
+Java 泛型的参数只可以代表类，不能代表个别对象。由于 Java 泛型的类型参数之实际类型在编译时会被消除，所以无法在运行时得知其类型参数的类型。Java 编译器在编译泛型时会自动加入类型转换的编码，故运行速度不会因为使用泛型而 加快。Java 允许对个别泛型的类型参数进行约束，包括以下两种形式（假设 T 是泛型的类型参数，C 是一般类、泛类，或是泛型的类型参数）：T 实现接口 I 。T 是 C ，或继承自 C 。一个泛型类不能实现Throwable接口。
+### C++ 的泛型（模板）
+C++ 无法对泛型的类型参数进行约束。在编译时，每个被使用的封闭泛型类型（即是所有泛型参数的实际类型都已被指明的泛型）都会有独立的编码产生，编译器会在此时确保类型安全性。可是如果泛型要运用其泛型参数的某成员，而该泛型参数又不包含该成员的时候，编译器所产生的错误信息会看似与实际问题无关，增加出错的难度。
+
+# java泛型
+## 1.泛型方法   
+你可以写一个泛型方法，该方法在调用时可以接收不同类型的参数。根据传递给泛型方法的参数类型，编译器适当地处理每一个方法调用。
+所有泛型方法声明都有一个类型参数声明部分（由尖括号分隔），该类型参数声明部分在方法返回类型之前（在下面例子中的<E>）。
+每一个类型参数声明部分包含一个或多个类型参数，参数间用逗号隔开。一个泛型参数，也被称为一个类型变量，是用于指定一个泛型类型名称的标识符。
+类型参数能被用来声明返回值类型，并且能作为泛型方法得到的实际参数类型的占位符。
+泛型方法体的声明和其他方法一样。注意类型参数只能代表引用型类型，不能是原始类型（像int,double,char的等）。
+
+``` 例1：public class GenericMethodTest
+{
+   // 泛型方法 printArray                         
+   public static < E > void printArray( E[] inputArray )  //$ inputArray 是E[]类型 自适应对应元素类型的Lsit
+   {
+      // 输出数组元素            
+         for ( E element : inputArray ){        
+            System.out.print(element+" ");
+           //或System.out.printf( "%s", element );
+         }
+         System.out.println();
+    } 
+
+public static void main( String args[] )
+    {
+        // 创建不同类型数组： Integer, Double 和 Character
+        Integer[] intArray = { 1, 2, 3, 4, 5 };
+        Double[] doubleArray = { 1.1, 2.2, 3.3, 4.4 };
+        Character[] charArray = { 'H', 'E', 'L', 'L', 'O' };
+ 
+        System.out.println( "整型数组元素为:" );
+        printArray( intArray  ); // 传递一个整型数组
+ 
+        System.out.println( "\n双精度型数组元素为:" );
+        printArray( doubleArray ); // 传递一个双精度型数组
+ 
+        System.out.println( "\n字符型数组元素为:" );
+        printArray( charArray ); // 传递一个字符型数组
+    } 
+} 
+整型数组元素为:
+1 2 3 4 5 
+双精度型数组元素为:
+1.1 2.2 3.3 4.4 
+字符型数组元素为:
+H E L L O 
+
+例2：public class MaximumTest
+{
+   // 比较三个值并返回最大值
+   public static <T extends Comparable<T>> T maximum(T x, T y, T z)   //extends 继承   implements接口
+   {                                                       //Comparable<T> 和 Comparator<T>都是接口
+                                    //不同点：
+　                                　//两者声明的方法不同。前者是compareTo()方法，后者是compare()方法。
+      T max = x; // 假设x是初始最大值
+      if ( y.compareTo( max ) > 0 ){
+         max = y; //y 更大
+      }
+      if ( z.compareTo( max ) > 0 ){
+         max = z; // 现在 z 更大           
+      }
+      return max; // 返回最大对象
+   }
+   public static void main( String args[] )
+   {
+      System.out.printf( "%d, %d 和 %d 中最大的数为 %d\n\n",
+                   3, 4, 5, maximum( 3, 4, 5 ) );
+ 
+      System.out.printf( "%.1f, %.1f 和 %.1f 中最大的数为 %.1f\n\n",
+                   6.6, 8.8, 7.7, maximum( 6.6, 8.8, 7.7 ) );
+ 
+      System.out.printf( "%s, %s 和 %s 中最大的数为 %s\n","pear",
+         "apple", "orange", maximum( "pear", "apple", "orange" ) );
+   }
+}   
+```
+特殊知识： extends 继承   implements接口   Comparable<T> 和 Comparator<T> Number类   List.get(index)  List.add()   
+
+## 2.泛型类   
+泛型类的声明和非泛型类的声明类似，除了在类名后面添加了类型参数声明部分。   
+和泛型方法一样，泛型类的类型参数声明部分也包含一个或多个类型参数，参数间用逗号隔开。一个泛型参数，也被称为一个类型变量，是用于指定一个泛型类型名称的标识符。因为他们接受一个或多个参数，这些类被称为参数化的类或参数化的类型。   
+```
+package unit2;
+public class Box<T> {     //$ box<T>泛型方法
+   
+  private T t;
+ int a;
+ 
+  public void add(T t,int a) {             
+    this.t = t;
+    this.a=a;
+  }
+ 
+  public String toString()
+  {return t.toString()+a;}
+  
+  public T get() {
+    return t;
+  }
+ 
+  public static void main(String[] args) {
+    Box<Integer> integerBox = new Box<Integer>();
+    Box<String> stringBox = new Box<String>();
+ 
+    integerBox.add(new Integer(10),123);        
+    stringBox.add(new String("菜鸟教程"),321);
+ 
+    System.out.println("整型值为 "+ integerBox.get());
+    System.out.println("字符串为 "+ stringBox.get());
+    System.out.println("多加的int "+integerBox.toString()+'\n'+stringBox.toString());
+  }
+}
+整型值为 10
+字符串为 菜鸟教程
+多加的int 10123
+菜鸟教程321 `
+```
+## 3.类型通配符
+1、类型通配符一般是使用?代替具体的类型参数。例如 List<?> 在逻辑上是List<String>,List<Integer> 等所有List<具体类型实参>的父类。 
+
+```package unit2;
+import java.util.*;
+ 
+public class GenericTest {  //已有各类list  通用方法打印List元素
+     
+    public static void main(String[] args) {
+        List<String> name = new ArrayList<String>();
+        List<Integer> age = new ArrayList<Integer>();
+        List<Number> number = new ArrayList<Number>();
+        
+        name.add("icon");//$ List.add返回值
+        age.add(18);
+        number.add(11.1); //$ Number类 的对象可以是byte、int、short、long、double、float、boolean等数字的一种
+ 
+        getData(name);
+        getData(age);
+        getData(number);
+       
+   }
+    
+    //$ List<?> 在逻辑上是List<String>,List<Integer> 等所有List<具体类型实参>的父类
+   public static void getData(List<?> data) {  
+      System.out.println("data :" + data.get(0));
+   }
+}
+data :icon
+data :18
+data :314
+```
