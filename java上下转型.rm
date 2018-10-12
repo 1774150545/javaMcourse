@@ -1,5 +1,5 @@
-
-
+## 向上转型
+```
 List<Task> taskList = new ArrayList<Task>();   //基类Task的List集合
 		Task math = new Homework(1, "Math", "math homework", "2018-09-18", 0, "2018-09-21");
 		taskList.add(math);
@@ -16,16 +16,18 @@ List<Task> taskList = new ArrayList<Task>();   //基类Task的List集合
 		taskList.add(networkingProgramming);
     
 		Task numericalAnalysis = new ClassroomTask(5, "Numerical Analysis", "numerical analysis classroom task",
-				"2018-09-6", 0);  
-        //以上为向上转型
+				"2018-09-6", 0);   //向上转型
+				
      
    public void displayCatalogTask() {
     for (Task task : catalogTask) 
 			stdOut.println(task.toString());	  //task 实际上为子类 ，调用子类的toString() 避免分类讨论
 	}
+```
   
-  向下转型  
-  FacultyMember类中equals
+ ## 向下转型  
+ ```
+ FacultyMember类中equals
   public class FacultyMember {
      private String name;
    public  String getName(){return name;}
@@ -36,4 +38,4 @@ List<Task> taskList = new ArrayList<Task>();   //基类Task的List集合
 	   if(this.name.equals(member.getName()))return true;}
 	   else return false;
 	   }
-	   
+ ```
