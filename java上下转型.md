@@ -24,7 +24,7 @@ List<Task> taskList = new ArrayList<Task>();   //基类Task的List集合
 			stdOut.println(task.toString());	  //task 实际上为子类 ，调用子类的toString() 避免分类讨论
 	}
 ```
-  
+  ### 注意：向上转型为基类对象，调用基类和子类的同名方法用的是子类方法，不能调用子类不同名的方法。要调用子类不同名方法还要再向上转型
  ## 向下转型  
  ```
  FacultyMember类中equals
