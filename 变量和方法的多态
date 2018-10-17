@@ -1,0 +1,62 @@
+```
+import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class FacultyManagementSystem {
+	private static List<FacultyMember> members; // 必须static
+
+	public static void main(String[] args) {
+		members = new ArrayList<FacultyMember>();
+		Teacher teacher0 = new Teacher("0", "小红", "11019555999", "大物老师");
+		FacultyMember teacher1 = new Teacher("1", "王刚", "13019555999", "高数老师"); // 变量的多态性
+																				// 新建的基类是子类对象的#引用#
+																				// 向上转型
+		FacultyMember offcial1 = new Official("2", "李伟", "1599955842", "秘书");
+		FacultyMember experimenter1 = new Experimenter("3", "小明", "16019555999", "大学生");
+
+		members.add(teacher0);
+		members.add(teacher1);
+		members.add(offcial1);
+		members.add(experimenter1);
+		Teacher teacher2 = new Teacher("0", "小红", "11019555999", "大物老师");
+		for (FacultyMember f : members) { // 打印人物信息
+			System.out.println(f.toString()); // 方法的多态性 向上转型 用的是覆写后子类的方法
+		}
+
+		for (FacultyMember f : members) { // 找members里有没有大物老师小红
+			if (f instanceof Teacher) {
+				Teacher t = (Teacher) f; // 方法的多态性 向下转型
+											// 因为向上转型失去Teacher的getTitle方法
+											// 现在向下转型还原 能用getTitle 进行equals的比较了
+				if (teacher2.equals(f) && (teacher2.getTitle().equals(t.getTitle())))  //或者可以再Teacher类总写个equals 继承+比较子类属性 但是这样比较时已经可以用覆写了 不用向下转型了
+					System.out.println(teacher2.getTitle() + "和" + f.getName() + "  是同一个人");//这里必须向下转型后才能用GetTitle()(Teacher的特殊方法)
+				else
+					System.out.println(teacher2.getTitle() + "和" + f.getName() + " 不是同一个人");
+				// 向下转型 根据子类内容判断是不是同一个人
+			}
+		}
+
+		System.out.println("老师有:");
+		for (FacultyMember f : members) {
+			if (f instanceof Teacher) {
+				Teacher t = (Teacher) f;
+				System.out.println(t.getTitle()); // 向下转型 使用子类的特殊方法
+			}
+		}
+	}
+}
+identification: 0 name: 小红 contactTelephone: 11019555999 title:大物老师
+identification: 1 name: 王刚 contactTelephone: 13019555999 title:高数老师
+identification: 2 name: 李伟 contactTelephone: 1599955842 jobPostion:秘书
+identification: 3 name: 小明 contactTelephone: 16019555999 degree:大学生
+小红和大物老师  是同一个人
+小红和高数老师 不是同一个人
+老师有:
+大物老师
+高数老师
+```
+1.FacultyMember teacher1=new Teacher() 创建新对象 子类转父类 体现变量的多态
+2.打印人物信息的For 循环中也可子类转父类，但应用的是子类覆写的方法，体现方法的多态
+3.进行比较（equals）Teacher属性来判断是否是同一个人时  For循环进行判断，符合条件然后向下转型，比较子类特有的属性，使用子类特有的方法  体现变量的多态
+
