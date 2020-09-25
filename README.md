@@ -1,2 +1,2 @@
 # javaMcourse
-notes and files during studying java course MaChunyan
+notes about java course
